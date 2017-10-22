@@ -20,9 +20,8 @@
             </div>
             <ul class="nav nav-tabs nav-justified" style="width: 600px; padding:0px 15px 0px 15px;">
                 <li class="active"><a href="#INVENTORY" data-toggle="tab" style="background-color:grey; border-bottom-color:black; color:white; padding:5px 15px 5px 15px;">INVENTORY</a></li>
-                <li><a data-toggle="tab" href="#ORDERS" style="background-color:grey; color:white;  border-bottom-color:black; padding:5px 15px 5px 15px;">ORDERS</a></li>
-                <li><a data-toggle="tab" href="#REPORTS" style="background-color:grey; color:white;  border-bottom-color:black; padding:5px 15px 5px 15px;">REPORTS</a></li>
-                <li><a data-toggle="tab" href="#SETTINGS" style="background-color:grey; color:white;  border-bottom-color:black; padding:5px 15px 5px 15px;">SETTINGS</a></li>
+                <li><a data-toggle="tab" href="#PROFILE" style="background-color:grey; color:white;  border-bottom-color:black; padding:5px 15px 5px 15px;">PROFILE</a></li>
+                <li><a data-toggle="tab" href="#SEARCH" style="background-color:grey; color:white;  border-bottom-color:black; padding:5px 15px 5px 15px;">SEARCH</a></li>
             </ul>
             </div>
             <div class="tab-content">
@@ -43,12 +42,13 @@
                                             <tr>
                                                 <th>Select Item to Edit</th>
                                                 <th>NAME</th>
-                                                <th>DESCIPTION</th>
+                                                <th>DESCRIPTION</th>
                                                 <th>PRICE</th>
                                                 <th>QUANTITY</th>
                                                 <th>COLOR</th>
                                                 <th>SIZE</th>
                                                 <th>CATEGORY</th>
+                                                <th>FIT</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -62,6 +62,7 @@
                                                 <td>{{item.Color}}</td>
                                                 <td>{{item.Size}}</td>
                                                 <td>{{item.Category}}</td>
+                                                <td>{{item.Fit}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -101,15 +102,35 @@
                         </tr>
                         <tr>
                             <td style="width:50%; text-align:center;">Color:</td>
-                            <td style="width:50%;"><input type="text" [(ngModel)]="product.Color" placeholder="Color" /></td>
+                            <td class="checkbox-inline" *ngFor="let col of Colors">
+                                <input *ngIf="checked(col,'color')" style="margin:0px 5px 0px 5px;" type="checkbox" checked (change)="$event.target.checked? check(col, 'color') : uncheck(col, 'color')" value="sz">
+                                <input *ngIf="!checked(col,'color')" style="margin:0px 5px 0px 5px;" type="checkbox" (change)="$event.target.checked? check(col, 'color') : uncheck(col, 'color')" value="sz">
+                                <span style="margin:0px 0px 2px 25px;">{{col}}</span>
+                            </td>                       
                         </tr>
                         <tr>
                             <td style="width:50%; text-align:center;">Size:</td>
-                            <td style="width:50%;"><input type="text" [(ngModel)]="product.Size" placeholder="Size" /></td>
+                            <td class="checkbox-inline" *ngFor="let sz of Sizes">
+                              <input *ngIf="checked(sz,'size')" style="margin:0px 5px 0px 5px;" type="checkbox" checked (change) ="$event.target.checked? check(sz, 'size') : uncheck(sz, 'size')" value="sz">
+                              <input *ngIf="!checked(sz,'size')" style="margin:0px 5px 0px 5px;" type="checkbox" (change)="$event.target.checked? check(sz, 'size') : uncheck(sz, 'size')" value="sz">
+                                <span style="margin:0px 0px 0px 25px;">{{sz}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:50%; text-align:center;">Fit:</td>
+                            <td class="checkbox-inline" *ngFor="let ft of Fits">
+                                <input *ngIf="checked(ft,'fit')" style="margin:0px 5px 0px 5px;" type="checkbox" checked (change)="$event.target.checked? check(ft, 'fit') : uncheck(ft, 'fit')" value="sz">
+                                <input *ngIf="!checked(ft,'fit')" style="margin:0px 5px 0px 5px;" type="checkbox" (change)="$event.target.checked? check(ft, 'fit') : uncheck(ft, 'fit')" value="sz">
+                                <span style="margin:0px 0px 0px 25px;">{{ft}}</span>
+                            </td>
                         </tr>
                         <tr>
                             <td style="width:50%; text-align:center;">Category:</td>
-                            <td style="width:50%;"><input type="text" [(ngModel)]="product.Category" placeholder="Category" /></td>
+                            <td style="width:50%;">
+                                <select type="text" [(ngModel)]="product.Category" >
+                                    <option *ngFor="let cat of Categories" [ngValue]="cat">{{cat}}</option>
+                                </select>
+                            </td>
                         </tr>
                     </table>
                     <div class="row" style="text-align:center">

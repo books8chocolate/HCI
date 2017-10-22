@@ -7,49 +7,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var Colors;
-(function (Colors) {
-    Colors[Colors["Black"] = 0] = "Black";
-    Colors[Colors["White"] = 1] = "White";
-    Colors[Colors["Red"] = 2] = "Red";
-    Colors[Colors["Orange"] = 3] = "Orange";
-    Colors[Colors["Yellow"] = 4] = "Yellow";
-    Colors[Colors["Green"] = 5] = "Green";
-    Colors[Colors["Blue"] = 6] = "Blue";
-    Colors[Colors["Purple"] = 7] = "Purple";
-    Colors[Colors["Brown"] = 8] = "Brown";
-})(Colors || (Colors = {}));
-;
-var Sizes;
-(function (Sizes) {
-    Sizes[Sizes["XS"] = 0] = "XS";
-    Sizes[Sizes["S"] = 1] = "S";
-    Sizes[Sizes["M"] = 2] = "M";
-    Sizes[Sizes["L"] = 3] = "L";
-    Sizes[Sizes["XL"] = 4] = "XL";
-})(Sizes || (Sizes = {}));
-;
-var Categories;
-(function (Categories) {
-    Categories[Categories["Shirt"] = 0] = "Shirt";
-    Categories[Categories["Hoodie"] = 1] = "Hoodie";
-    Categories[Categories["Hat"] = 2] = "Hat";
-})(Categories || (Categories = {}));
-;
 var Product = (function () {
     function Product() {
         this.Id = null;
         this.Name = null;
         this.Category = null;
-        //Category?: Categories = null;
         this.Price = null;
-        this.Size = null;
-        //Size?: Sizes[] = null;
-        this.Color = null;
-        //Color?: Colors[] = null;
+        this.Size = [];
+        this.Color = [];
         this.Quantity = null;
         this.Description = null;
         this.Seller = null;
+        this.Fit = [];
     }
     return Product;
 }());
@@ -62,15 +31,16 @@ var mainComponent = (function () {
         this.list = true;
         this.lastID = 2;
         this.edDel = false;
-        this.Cats = Categories;
-        this.Sz = Sizes;
-        this.Col = Colors;
-        this.product = { Id: this.lastID + 1, Name: '', Seller: 'testSeller' };
-        this.oldProduct = { Id: 0, Name: '', Seller: '' };
+        this.Colors = ['Black', 'White', 'Gray', 'Purple'];
+        this.Sizes = ['XS', 'S', 'M', 'L', 'XL'];
+        this.Categories = ['', 'Shirt', 'Hoodie', 'Hat'];
+        this.Fits = ['Men', 'Women'];
+        this.product = { Id: this.lastID + 1, Name: '', Seller: 'testSeller', Color: [], Size: [], Fit: [] };
+        this.oldProduct = { Id: -1, Name: '', Seller: '' };
         this.Catalog = [
-            { Id: 0, Name: 'item1', Seller: 'seller1' },
-            { Id: 1, Name: 'item2', Seller: 'seller1' },
-            { Id: 2, Name: 'item3', Seller: 'seller2' }
+            { Id: 0, Name: 'item1', Category: 'Hoodie', Price: 25.00, Size: ['S', 'M', 'L'], Color: ['Black'], Quantity: 25, Description: 'A Black Hoodie', Fit: ['Men', 'Women'], Seller: 'seller1' },
+            { Id: 1, Name: 'item2', Category: 'Hat', Price: 20.00, Size: [], Color: ['Black', 'Gray', 'White'], Quantity: 25, Description: 'A Baseball Cap', Fit: [], Seller: 'seller1' },
+            { Id: 2, Name: 'item3', Category: 'Shirt', Price: 15.00, Size: ['S', 'M', 'L'], Color: ['Purple'], Quantity: 25, Description: 'A Purple T-Shirt', Fit: ['Men', 'Women'], Seller: 'seller1' }
         ];
     }
     mainComponent.prototype.addItem = function () {
@@ -94,12 +64,55 @@ var mainComponent = (function () {
         this.product.Size = this.Catalog[id].Size;
         this.product.Category = this.Catalog[id].Category;
         this.product.Seller = this.Catalog[id].Seller;
+        this.product.Fit = this.Catalog[id].Fit;
         this.edDel = true;
     };
     mainComponent.prototype.toAdd = function () {
+        this.product = { Id: this.lastID + 1, Name: '', Seller: 'testSeller', Color: [], Size: [], Fit: [] };
         this.list = false;
         this.saved = false;
         this.add = true;
+    };
+    mainComponent.prototype.check = function (value, type) {
+        if (type == 'size') {
+            if (this.product.Size.indexOf(value) == -1)
+                this.product.Size.push(value);
+        }
+        else if (type == 'color') {
+            if (this.product.Color.indexOf(value) == -1)
+                this.product.Color.push(value);
+        }
+        else if (type == 'fit') {
+            if (this.product.Fit.indexOf(value) == -1)
+                this.product.Fit.push(value);
+        }
+    };
+    mainComponent.prototype.checked = function (value, type) {
+        if (type == 'size') {
+            if (this.product.Size.indexOf(value) == -1)
+                return false;
+        }
+        else if (type == 'color') {
+            if (this.product.Color.indexOf(value) == -1)
+                return false;
+        }
+        else if (type == 'fit') {
+            if (this.product.Fit.indexOf(value) == -1)
+                return false;
+        }
+        return true;
+    };
+    mainComponent.prototype.uncheck = function (value, type) {
+        var i = 0;
+        if (type == 'size') {
+            this.product.Size.splice(this.product.Size.indexOf(value), 1);
+        }
+        else if (type == 'color') {
+            this.product.Color.splice(this.product.Color.indexOf(value), 1);
+        }
+        else if (type == 'fit') {
+            this.product.Fit.splice(this.product.Fit.indexOf(value), 1);
+        }
     };
     mainComponent.prototype.toEdit = function () {
         this.list = false;
@@ -118,6 +131,7 @@ var mainComponent = (function () {
         this.Catalog[this.product.Id].Size = this.product.Size;
         this.Catalog[this.product.Id].Category = this.product.Category;
         this.Catalog[this.product.Id].Seller = this.product.Seller;
+        this.Catalog[this.product.Id].Fit = this.product.Fit;
         this.saved = true;
         this.add = false;
     };

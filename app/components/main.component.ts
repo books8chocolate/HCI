@@ -1,29 +1,23 @@
 import { Component } from '@angular/core';
 
-enum Colors { Black, White, Red, Orange, Yellow, Green, Blue, Purple, Brown };
-enum Sizes { XS, S, M, L, XL };
-enum Categories { Shirt, Hoodie, Hat };
-
 export class Product {
     Id: number = null;
     Name: string = null;
     Category?: string = null;
-    //Category?: Categories = null;
     Price?: number = null;
-    Size?: string = null;
-    //Size?: Sizes[] = null;
-    Color?: string = null;
-    //Color?: Colors[] = null;
+    Size?: string[] = [];
+    Color?: string[] = [];
     Quantity?: number = null;
     Description?: string = null;
     Seller: string = null;
+    Fit?: string[] = [];
 }
 
 @Component({
   selector: 'my-app',
   templateUrl: 'app/components/main.component.html',
 })
-export class mainComponent  {
+export class mainComponent {
     saved: boolean = false;
     add: boolean = false;
     edit: boolean = false;
@@ -31,17 +25,18 @@ export class mainComponent  {
     lastID: number = 2;
     edDel: boolean = false;
 
-    Cats: any = Categories;
-    Sz: any = Sizes;
-    Col: any = Colors;
+    Colors: string[] = ['Black', 'White', 'Gray', 'Purple'];
+    Sizes: string[] = ['XS', 'S', 'M', 'L', 'XL'];
+    Categories: string[] = ['', 'Shirt', 'Hoodie', 'Hat'];
+    Fits: string[] = ['Men', 'Women'];
 
-    product: Product = { Id: this.lastID + 1, Name: '', Seller: 'testSeller' };
-    oldProduct: Product = { Id: 0, Name: '', Seller: '' };
+    product: Product = { Id: this.lastID + 1, Name: '', Seller: 'testSeller', Color: [], Size: [], Fit:[] };
+    oldProduct: Product = { Id: -1, Name: '', Seller: '' };
 
     Catalog: Product[] = [
-        { Id: 0, Name: 'item1', Seller: 'seller1' },
-        { Id: 1, Name: 'item2', Seller: 'seller1' },
-        { Id: 2, Name: 'item3', Seller: 'seller2' }
+        { Id: 0, Name: 'item1', Category: 'Hoodie', Price: 25.00, Size: ['S', 'M', 'L'], Color: ['Black'], Quantity: 25, Description: 'A Black Hoodie', Fit: ['Men', 'Women'], Seller: 'seller1' },
+        { Id: 1, Name: 'item2', Category: 'Hat', Price: 20.00, Size: [], Color: ['Black', 'Gray', 'White'], Quantity: 25, Description: 'A Baseball Cap', Fit: [], Seller: 'seller1' },
+        { Id: 2, Name: 'item3', Category: 'Shirt', Price: 15.00, Size: ['S', 'M', 'L'], Color: ['Purple'], Quantity: 25, Description: 'A Purple T-Shirt', Fit: ['Men', 'Women'], Seller: 'seller1' }
     ];
 
     public addItem() {
@@ -68,14 +63,61 @@ export class mainComponent  {
         this.product.Size = this.Catalog[id].Size;
         this.product.Category = this.Catalog[id].Category;
         this.product.Seller = this.Catalog[id].Seller;
+        this.product.Fit = this.Catalog[id].Fit;
 
         this.edDel = true;
     }
 
     public toAdd() {
+        this.product = { Id: this.lastID + 1, Name: '', Seller: 'testSeller', Color: [], Size: [], Fit: [] };
         this.list = false;
         this.saved = false;
         this.add = true;
+    }
+
+    public check(value: string, type: string) {
+        if (type == 'size') {
+            if (this.product.Size.indexOf(value) == -1)
+            this.product.Size.push(value);
+        }
+        else if (type == 'color') {
+            if (this.product.Color.indexOf(value) == -1)
+            this.product.Color.push(value);
+        }
+        else if (type == 'fit') {
+            if (this.product.Fit.indexOf(value) == -1)
+            this.product.Fit.push(value);
+        }
+    }
+
+    public checked(value: string, type: string) {
+        if (type == 'size') {
+            if (this.product.Size.indexOf(value) == -1)
+                return false;
+        }
+        else if (type == 'color') {
+            if (this.product.Color.indexOf(value) == -1)
+                return false;
+        }
+        else if (type == 'fit') {
+            if (this.product.Fit.indexOf(value) == -1)
+                return false;
+        }
+
+        return true;
+    }
+
+    public uncheck(value: string, type: string) {
+        var i = 0;
+        if (type == 'size') {
+            this.product.Size.splice(this.product.Size.indexOf(value), 1);
+        }
+        else if (type == 'color') {
+            this.product.Color.splice(this.product.Color.indexOf(value),1);
+        }
+        else if (type == 'fit') {
+            this.product.Fit.splice(this.product.Fit.indexOf(value),1);
+        }
     }
 
     public toEdit() {
@@ -96,6 +138,7 @@ export class mainComponent  {
         this.Catalog[this.product.Id].Size = this.product.Size;
         this.Catalog[this.product.Id].Category = this.product.Category;
         this.Catalog[this.product.Id].Seller = this.product.Seller;
+        this.Catalog[this.product.Id].Fit = this.product.Fit;
         this.saved = true;
         this.add = false;
     }
