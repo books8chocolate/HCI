@@ -35,6 +35,7 @@
       app: {
         main: './main.js',
         defaultExtension: 'js'
+		npm: 'https://unpkg.com/'
       },
       rxjs: {
         defaultExtension: 'js'
