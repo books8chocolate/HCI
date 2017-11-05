@@ -1,0 +1,114 @@
+﻿<h6 style="height:10px; background-color:black; margin:0px 0px 0px 0px;"></h6>
+<h6 style="background-color:grey; color:black; margin:0px 0px 0px 0px;">
+	<span style="margin:0px 40px 0px 20px">Merchant: </span>
+	<span>Most Recent Update: </span>
+</h6>
+<h6 style="height:5px; background-color:black; margin:0px 0px 0px 0px;"></h6>
+<div *ngIf="list">
+	<h1 style="background-color:black; color:lightgray; padding:10px 5px 10px 5px; margin:0px 5px 0px 5px; text-align:center;">
+		<span>Inventory</span>
+	</h1>
+	<div *ngIf="saved == false" class="container">
+		<table class="table table-hover table-bordered" style="margin:5px 5px 5px 5px;">
+			<thead>
+				<tr>
+					<th>Select Item to Edit</th>
+					<th>NAME</th>
+					<th>DESCRIPTION</th>
+					<th>PRICE</th>
+					<th>QUANTITY</th>
+					<th>COLOR</th>
+					<th>SIZE</th>
+					<th>CATEGORY</th>
+					<th>FIT</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let item of Catalog">
+					<!--ngrepeat-->
+					<td><input type="radio" name="selectItem" (click)="selected(item.Id)"></td>
+					<td>{{item.Name}}</td>
+					<td>{{item.Description}}</td>
+					<td>{{item.Price}}</td>
+					<td>{{item.Quantity}}</td>
+					<td>{{item.Color}}</td>
+					<td>{{item.Size}}</td>
+					<td>{{item.Category}}</td>
+					<td>{{item.Fit}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="row" style="text-align:center">
+			<button type="button" class="btn" (click)="toAdd()">Add an Item</button>
+			<button *ngIf="edDel" type="button" (click)="toEdit()" class="btn">Edit</button>
+			<button *ngIf="edDel" type="button" class="btn" (click)="removeItem()">Delete</button>
+		</div>
+	</div>
+</div>
+<div class="row" *ngIf="saved == true" style="text-align:center; color:gray;">
+	<h2>Your changes have been saved.<br />Click on Inventory button to review</h2>
+	<button type="button" class="btn btn-lg" (click)="inventory()" style="color:white;
+                                background-color:darkgray; margin:20px 0px 0px 0px; padding:2px 5px 2px 5px;">
+		INVENTORY
+	</button>
+</div>
+<!--add html-->
+<div *ngIf="add" style="background-color:white" class="container">
+	<h2 *ngIf="!edit" style="text-align:center"><b>Add an Item</b></h2>
+	<h2 *ngIf="edit" style="text-align:center"><b>Edit an Item</b></h2>
+	<table class="table table-bordered" style="margin:10px 5px 5px 5px; position:center">
+		<tr>
+			<td style="width:50%; text-align:center;">Name:</td>
+			<td style="width:50%;"><input type="text" [(ngModel)]="product.Name" placeholder="name" /></td>
+		</tr>
+		<tr>
+			<td style="width:50%; text-align:center;">Description:</td>
+			<td style="width:50%;"><input type="text" [(ngModel)]="product.Description" placeholder="Description" /></td>
+		</tr>
+		<tr>
+			<td style="width:50%; text-align:center;">Price:</td>
+			<td style="width:50%;"><input type="text" [(ngModel)]="product.Price" placeholder="Price" /></td>
+		</tr>
+		<tr>
+			<td style="width:50%; text-align:center;">Quantity:</td>
+			<td style="width:50%;"><input type="text" [(ngModel)]="product.Quantity" placeholder="Quantity" /></td>
+		</tr>
+		<tr>
+			<td style="width:50%; text-align:center;">Color:</td>
+			<td class="checkbox-inline" *ngFor="let col of Colors">
+				<input *ngIf="checked(col,'color')" style="margin:0px 5px 0px 5px;" type="checkbox" checked (change)="$event.target.checked? check(col, 'color') : uncheck(col, 'color')" value="sz">
+				<input *ngIf="!checked(col,'color')" style="margin:0px 5px 0px 5px;" type="checkbox" (change)="$event.target.checked? check(col, 'color') : uncheck(col, 'color')" value="sz">
+				<span style="margin:0px 0px 2px 25px;">{{col}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:50%; text-align:center;">Size:</td>
+			<td class="checkbox-inline" *ngFor="let sz of Sizes">
+				<input *ngIf="checked(sz,'size')" style="margin:0px 5px 0px 5px;" type="checkbox" checked (change)="$event.target.checked? check(sz, 'size') : uncheck(sz, 'size')" value="sz">
+				<input *ngIf="!checked(sz,'size')" style="margin:0px 5px 0px 5px;" type="checkbox" (change)="$event.target.checked? check(sz, 'size') : uncheck(sz, 'size')" value="sz">
+				<span style="margin:0px 0px 0px 25px;">{{sz}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:50%; text-align:center;">Fit:</td>
+			<td class="checkbox-inline" *ngFor="let ft of Fits">
+				<input *ngIf="checked(ft,'fit')" style="margin:0px 5px 0px 5px;" type="checkbox" checked (change)="$event.target.checked? check(ft, 'fit') : uncheck(ft, 'fit')" value="sz">
+				<input *ngIf="!checked(ft,'fit')" style="margin:0px 5px 0px 5px;" type="checkbox" (change)="$event.target.checked? check(ft, 'fit') : uncheck(ft, 'fit')" value="sz">
+				<span style="margin:0px 0px 0px 25px;">{{ft}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:50%; text-align:center;">Category:</td>
+			<td style="width:50%;">
+				<select type="text" [(ngModel)]="product.Category">
+					<option *ngFor="let cat of Categories" [ngValue]="cat">{{cat}}</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+	<div class="row" style="text-align:center">
+		<button *ngIf="!edit" type="button" class="btn" (click)="addItem()">Add Item</button>
+		<button *ngIf="edit == true" type="button" class="btn" (click)="editItem()">Edit Item</button>
+
+		<button type="button" class="btn" (click)="inventory()">Cancel</button>
+	</div>
