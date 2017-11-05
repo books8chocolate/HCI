@@ -36,7 +36,7 @@ var Card = (function () {
 exports.Card = Card;
 var bsInfoComponent = (function () {
     function bsInfoComponent() {
-        this.title = 'TEST';
+        this.title = 'SHIPPING ADDRESS';
         this.info = new BSInfo();
         this.oldInfo = new BSInfo();
         this.bInfo = this.info;
@@ -47,7 +47,6 @@ var bsInfoComponent = (function () {
         this.checked = true;
         this.options = ['firstname', 'lastname', 'address1', 'city', 'stateprov', 'country', 'zipcode', 'phonenum', 'email', 'type', 'num', 'date', 'code'];
         this.clickProc = false;
-        this.missInput = false;
     }
     bsInfoComponent.prototype.proceed = function (tab) {
         var stop = false;
@@ -60,30 +59,32 @@ var bsInfoComponent = (function () {
         if (stop == false) {
             this.activeTab = tab;
             this.clickProc = false;
+            if (this.activeTab == 'pi') {
+                this.title = 'PAYMENT INFO';
+            }
+            else if (this.activeTab == 'co') {
+                this.title = 'CONFIRM ORDER';
+            }
         }
     };
     bsInfoComponent.prototype.missing = function (type) {
         if (this.clickProc) {
             if (type == 'firstname') {
                 if (this.info.FirstName == null) {
-                    this.missInput = true;
                     return true;
                 }
                 if (this.activeTab == 'pi') {
                     if (this.bInfo.FirstName == null) {
-                        this.missInput = true;
                         return true;
                     }
                 }
             }
             else if (type == 'lastname') {
                 if (this.info.LastName == null) {
-                    this.missInput = true;
                     return true;
                 }
                 if (this.activeTab == 'pi') {
                     if (this.bInfo.LastName == null) {
-                        this.missInput = true;
                         return true;
                     }
                 }
