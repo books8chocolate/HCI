@@ -27,7 +27,7 @@ export class Card {
 })
 
 export class bsInfoComponent {
-    title: string = 'TEST';
+    title: string = 'SHIPPING ADDRESS';
     info: BSInfo = new BSInfo();
     oldInfo: BSInfo = new BSInfo();
     bInfo: BSInfo = this.info;
@@ -50,6 +50,12 @@ export class bsInfoComponent {
         if (stop == false) {
             this.activeTab = tab;
             this.clickProc = false;
+            if (this.activeTab == 'pi') {
+                this.title = 'PAYMENT INFO';
+            }
+            else if (this.activeTab == 'co') {
+                this.title = 'CONFIRM ORDER';
+            }
         }
     }
 
