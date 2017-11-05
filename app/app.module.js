@@ -10,7 +10,11 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var http_1 = require("@angular/http");
 var forms_1 = require("@angular/forms");
+var app_routing_module_1 = require("./components/app-routing.module");
 var main_component_1 = require("./components/main.component");
+var inventory_component_1 = require("./components/inventory.component");
+var bsInfo_component_1 = require("./components/bsInfo.component");
+var tabs_component_1 = require("./components/tabs.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -18,8 +22,8 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, http_1.HttpModule, forms_1.FormsModule],
-        declarations: [main_component_1.mainComponent],
+        imports: [platform_browser_1.BrowserModule, http_1.HttpModule, forms_1.FormsModule, app_routing_module_1.AppRoutingModule],
+        declarations: [main_component_1.mainComponent, inventory_component_1.inventoryComponent, bsInfo_component_1.bsInfoComponent, tabs_component_1.tabsComponent],
         bootstrap: [main_component_1.mainComponent]
     })
 ], AppModule);

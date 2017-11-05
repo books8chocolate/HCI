@@ -82,7 +82,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\components\bsInfo.component.html" />
+    <Content Include="app\components\tabs.component.html" />
     <Content Include="package.json" />
+    <Content Include="app\components\inventory.component.html" />
     <None Include="packages.config" />
     <Content Include="tsconfig.json" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
@@ -124,15 +127,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\components\app-routing.module.ts" />
+    <TypeScriptCompile Include="app\components\bsInfo.component.ts" />
+    <TypeScriptCompile Include="app\components\inventory.component.ts" />
     <TypeScriptCompile Include="app\components\main.component.ts" />
     <TypeScriptCompile Include="app\app.module.ts" />
+    <TypeScriptCompile Include="app\components\tabs.component.ts" />
     <TypeScriptCompile Include="app\main.ts" />
-    <TypeScriptCompile Include="app\service\Product.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="app\service\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
