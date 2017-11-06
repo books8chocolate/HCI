@@ -12,7 +12,7 @@ var main_component_1 = require("./main.component");
 var inventory_component_1 = require("./inventory.component");
 var bsInfo_component_1 = require("./bsInfo.component");
 var routes = [
-    { path: '', redirectTo: '/Inventory', pathMatch: 'full' },
+    { path: '', redirectTo: '/', pathMatch: 'full' },
     { path: 'Main', component: main_component_1.mainComponent },
     { path: 'Inventory', component: inventory_component_1.inventoryComponent },
     { path: 'bsInfo', component: bsInfo_component_1.bsInfoComponent }

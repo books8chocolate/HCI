@@ -7,7 +7,7 @@ import { bsInfoComponent } from './bsInfo.component';
 
 
 const routes: Routes = [
-    { path: '', redirectTo: '/Inventory', pathMatch: 'full' },
+    { path: '', redirectTo: '/', pathMatch: 'full' },
     { path: 'Main', component: mainComponent },
     { path: 'Inventory', component: inventoryComponent },
     { path: 'bsInfo', component: bsInfoComponent }
