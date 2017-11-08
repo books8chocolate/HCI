@@ -38,6 +38,7 @@ export class bsInfoComponent {
     checked: boolean = true;
     options: string[] = ['firstname', 'lastname', 'address1', 'city', 'stateprov', 'country', 'zipcode', 'phonenum', 'email', 'type', 'num', 'date', 'code'];
     clickProc: boolean = false;
+    cardTypes: string[] = ["VISA", "Master", "Disco", "Amex"];
 
     public proceed(tab: string) {
         var stop = false;
@@ -56,6 +57,22 @@ export class bsInfoComponent {
             else if (this.activeTab == 'co') {
                 this.title = 'CONFIRM ORDER';
             }
+        }
+    }
+
+    public typeClick(type: string) {
+        this.oldCard.CardType = this.card.CardType;
+        if (type == 'visa') {
+            this.card.CardType = "VISA";
+        }
+        else if (type == 'master') {
+            this.card.CardType = "Master";
+        }
+        else if (type == 'disco') {
+            this.card.CardType = "Disco";
+        }
+        else if (type == 'amex') {
+            this.card.CardType = "Amex";
         }
     }
 

@@ -43,7 +43,7 @@
                         </span>
                     </div>
                     <div class="form-group row" style="margin-bottom:5px;">
-                        <label class="col-sm-2 col-form-label">*Address 2</label>
+                        <label class="col-sm-2 col-form-label">Address 2</label>
                         <span class="col-sm-9">
                             <input class="form-control" type="text" [(ngModel)]="info.Address2" placeholder="Address 2" (click) ="shippingEdit('address2')">
                         </span>
@@ -111,24 +111,26 @@
             <div id="pi" *ngIf="activeTab == 'pi'" class="tab-pane fade in active">
                 <div class="col-sm-6">
                     <div style=" margin:20px 0px 10px 0px; text-align:center;">
-                        <span style="border:thin #000000 solid; width:25px; padding:5px 10px 5px 10px; margin-right:5px; font-size:18px;">VISA</span>
-                        <span style="border:thin #000000 solid; width:25px; padding:5px 5px 5px 5px; margin-right:5px; font-size:18px;">Master</span>
-                        <span style="border:thin #000000 solid; width:25px; padding:5px 7px 5px 7px; margin-right:5px; font-size:18px;">Disco</span>
-                        <span style="border:thin #000000 solid; width:25px; padding:5px 10px 5px 10px; margin-right:5px; font-size:18px;">Amex</span>
+                        <button type="button" class="btn-group-sm" (click)="typeClick('visa')">VISA</button>
+                        <button type="button" class="btn-group-sm" (click)="typeClick('master')">Master</button>
+                        <button type="button" class="btn-group-sm" (click)="typeClick('disco')">Disco</button>
+                        <button type="button" class="btn-group-sm" (click)="typeClick('amex')">Amex</button>
                     </div>
                     <div style="border-bottom:medium #000000 solid;">
                         <div class="form-group row" style="margin-bottom:5px;">
                             <label class="col-sm-3 col-form-label">
-                                Card Type:<br />
+                                *Card Type:<br />
                                 <span *ngIf="missing('type')" class="badge" style="background-color:red">MISSING</span>
                             </label>
                             <span class="col-sm-9">
-                                <input class="form-control" type="text" [(ngModel)]="card.CardType" (click)="cardEdit('type')" placeholder="Card Type">
+                                <select [(ngModel)]="card.CardType">
+                                    <option *ngFor="let x of cardTypes" [value]="x" [selected]="card.CardType == x" (click)="cardEdit('type')" placeholder="Card Type">{{x}}</option>
+                                </select> 
                             </span>
                         </div>
                         <div class="form-group row" style="margin-bottom:5px;">
                             <label class="col-sm-3 col-form-label">
-                                Card Number:<br />
+                                *Card Number:<br />
                                 <span *ngIf="missing('num')" class="badge" style="background-color:red">MISSING</span>
                             </label>
                             <span class="col-sm-9">
@@ -137,7 +139,7 @@
                         </div>
                         <div class="form-group row" style="margin-bottom:5px;">
                             <label class="col-sm-3 col-form-label">
-                                Expiration Date:<br />
+                                *Expiration Date:<br />
                                 <span *ngIf="missing('date')" class="badge" style="background-color:red">MISSING</span>
                             </label>
                             <span class="col-sm-9">
@@ -146,7 +148,7 @@
                         </div>
                         <div class="form-group row" style="margin-bottom:5px;">
                             <label class="col-sm-3 col-form-label">
-                                Security Code:<br />
+                                *Security Code:<br />
                                 <span *ngIf="missing('code')" class="badge" style="background-color:red">MISSING</span>
                             </label>
                             <span class="col-sm-9">
@@ -167,13 +169,13 @@
                 </div>
                 <div class="col-sm-6" style="float:right;">
                     <div class="row" style="margin:5px 5px 10px 5px;">
-                        <span style="font-size:18px;">Billing Address</span>
-                        <span class="form-check" style="float:right;">
+                        <div style="font-size:16px;">Billing Address</div>
+                        <div class="form-check" style="text-align:center; font-size:16px;">
                             <label class="form-check-label">
                                 <input class="form-check-input" type="checkbox" checked (change)="$event.target.checked? check(true) : uncheck(false)">
-                                Same as Shipping Address
+                                <b><i>Same as Shipping Address</i></b>
                             </label>
-                        </span>
+                        </div>
                     </div>
                     <div style="border-left:thin #000000 solid; padding-left:10px;">
                         <div class="form-group row" style="margin-top:5px; margin-bottom:5px;">
@@ -207,7 +209,7 @@
                             </span>
                         </div>
                         <div class="form-group row" style="margin-bottom:5px;">
-                            <label class="col-sm-3 col-form-label">*Address 2</label>
+                            <label class="col-sm-3 col-form-label">Address 2</label>
                             <span class="col-sm-9">
                                 <input *ngIf="checked" disabled class="form-control" type="text" [(ngModel)]="bInfo.Address2" placeholder="Address 2">
                                 <input *ngIf="!checked" class="form-control" type="text" [(ngModel)]="bInfo.Address2" placeholder="Address 2">

@@ -47,6 +47,7 @@ var bsInfoComponent = (function () {
         this.checked = true;
         this.options = ['firstname', 'lastname', 'address1', 'city', 'stateprov', 'country', 'zipcode', 'phonenum', 'email', 'type', 'num', 'date', 'code'];
         this.clickProc = false;
+        this.cardTypes = ["VISA", "Master", "Disco", "Amex"];
     }
     bsInfoComponent.prototype.proceed = function (tab) {
         var stop = false;
@@ -65,6 +66,21 @@ var bsInfoComponent = (function () {
             else if (this.activeTab == 'co') {
                 this.title = 'CONFIRM ORDER';
             }
+        }
+    };
+    bsInfoComponent.prototype.typeClick = function (type) {
+        this.oldCard.CardType = this.card.CardType;
+        if (type == 'visa') {
+            this.card.CardType = "VISA";
+        }
+        else if (type == 'master') {
+            this.card.CardType = "Master";
+        }
+        else if (type == 'disco') {
+            this.card.CardType = "Disco";
+        }
+        else if (type == 'amex') {
+            this.card.CardType = "Amex";
         }
     };
     bsInfoComponent.prototype.missing = function (type) {
