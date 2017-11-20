@@ -1,0 +1,26 @@
+﻿<div class="container" style="width:auto">
+    <div class="row" style="background-color:black; height:3px"></div>
+    <div class="row" style="background-color:gray;">
+        <button type="button" class="btn" style="margin-left: 10px;">dropdown</button>
+        <label style="margin-left:10px">Search:</label>
+        <input type="text" [(ngModel)]="queryString" id="search" placeholder="Search" />
+        <button type="button" class="btn" style="background-color:darkgray; color:white; border-color:black">Go</button>
+        <button *ngIf="!newItems" type="button" class="btn" style="float:right; margin-right:5px;" (click)="pageCart()"><img src="HCI_Cart.png" style="height:20px; width:20px;" /></button>
+        <button *ngIf="newItems" type="button" class="btn" style="float:right; background-color:purple; margin-right:5px;" (click)="pageCart()"><img src="HCI_Cart.png" style="height:20px; width:20px;" /></button>
+    </div>
+    <div class="row" style="background-color:black; height:3px"></div>
+    <div>
+        <div *ngFor="let item of Catalog" style="margin:20px 20px 20px 20px; padding:5px 15px 5px 15px;
+        display:inline-block; text-align:center;">
+            <div style="margin-bottom:5px">{{item.Name}}</div>
+            <div style="margin-bottom:5px"><img src="{{item.pic}}" style="width:100px; height:100px;" /></div>
+            <div class="row">
+                <span style="float:left">{{priceNum(item.Price)}}</span>
+                <button type="button" style="float:right; width:47px; height:20px; padding:0px 0px 0px 0px; vertical-align:middle;" class="btn" (click)="productCart(item.Id)">
+                    <img *ngIf="!inCart(item.Id)" src="HCI_Cart.png" style="width:15px; height:15px; padding:0px 0px 0px 0px; vertical-align:middle; margin-bottom:3px" />
+                    <span *ngIf="inCart(item.Id)"><b>In Cart</b></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

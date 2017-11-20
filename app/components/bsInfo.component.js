@@ -5,8 +5,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var cart_service_1 = require("../service/cart.service");
 var BSInfo = (function () {
     function BSInfo() {
         this.FirstName = null;
@@ -35,7 +39,9 @@ var Card = (function () {
 }());
 exports.Card = Card;
 var bsInfoComponent = (function () {
-    function bsInfoComponent() {
+    function bsInfoComponent(cart) {
+        this.cart = cart;
+        this.isSent = false;
         this.title = 'SHIPPING ADDRESS';
         this.info = new BSInfo();
         this.oldInfo = new BSInfo();
@@ -267,8 +273,37 @@ var bsInfoComponent = (function () {
     };
     bsInfoComponent.prototype.uncheck = function (bool) {
         this.bInfo = new BSInfo();
+        this.bInfo.Email = "blank";
         console.log(this.bInfo.FirstName);
         this.checked = bool;
+    };
+    bsInfoComponent.prototype.sent = function () {
+        this.cart.cartItems.splice(0, this.cart.cartItems.length);
+        this.isSent = true;
+    };
+    bsInfoComponent.prototype.edit = function () {
+        this.activeTab = 'sa';
+    };
+    bsInfoComponent.prototype.cost = function () {
+        var cost = 0;
+        for (var i = 0; i < this.cart.cartItems.length; i++) {
+            cost += this.cart.cartItems[i].Price * this.cart.cartItems[i].Quantity;
+        }
+        return cost;
+    };
+    bsInfoComponent.prototype.tax = function () {
+        var tax = this.cost() * 0.0825;
+        return tax;
+    };
+    bsInfoComponent.prototype.total = function () {
+        return this.cost() + this.tax() + 7;
+    };
+    bsInfoComponent.prototype.priceNum = function (num) {
+        if (num % 1 == 0) {
+            return "$" + num + ".00";
+        }
+        else
+            return "$" + num;
     };
     return bsInfoComponent;
 }());
@@ -276,7 +311,8 @@ bsInfoComponent = __decorate([
     core_1.Component({
         selector: 'bsinfo',
         templateUrl: 'app/components/bsInfo.component.html',
-    })
+    }),
+    __metadata("design:paramtypes", [cart_service_1.cartService])
 ], bsInfoComponent);
 exports.bsInfoComponent = bsInfoComponent;
 //# sourceMappingURL=bsInfo.component.js.map

@@ -1,4 +1,6 @@
 ﻿import { Component } from '@angular/core';
+import { cartService } from '../service/cart.service';
+
 
 export class BSInfo {
     FirstName: string = null;
@@ -27,6 +29,11 @@ export class Card {
 })
 
 export class bsInfoComponent {
+    constructor(public cart: cartService) {
+
+    }
+
+    isSent: boolean = false;
     title: string = 'SHIPPING ADDRESS';
     info: BSInfo = new BSInfo();
     oldInfo: BSInfo = new BSInfo();
@@ -265,8 +272,43 @@ export class bsInfoComponent {
 
     public uncheck(bool:boolean) {
         this.bInfo = new BSInfo();
+        this.bInfo.Email = "blank";
         console.log(this.bInfo.FirstName);
         this.checked = bool;
+    }
+
+    public sent() {
+        this.cart.cartItems.splice(0, this.cart.cartItems.length);
+        this.isSent = true;
+    }
+
+    public edit() {
+        this.activeTab = 'sa';
+    }
+
+    public cost() {
+        var cost = 0;
+        for (var i = 0; i < this.cart.cartItems.length; i++) {
+            cost += this.cart.cartItems[i].Price * this.cart.cartItems[i].Quantity;
+        }
+        return Math.round(cost * 100) / 100;
+    }
+
+    public tax() {
+        var tax = this.cost() * 0.0825;
+        return Math.round(tax * 100) / 100;
+    }
+
+    public total() {
+        return this.cost() + this.tax() + 7;
+    }
+
+    public priceNum(num: number) {
+        if (num % 1 == 0) {
+            return "$" + num + ".00";
+        }
+        else
+            return "$" + num;
     }
 }
 

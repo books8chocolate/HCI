@@ -4,13 +4,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { mainComponent } from './main.component';
 import { inventoryComponent } from './inventory.component';
 import { bsInfoComponent } from './bsInfo.component';
+import { homeComponent } from './home.component';
+import { cartComponent } from './cart.component';
 
 
 const routes: Routes = [
-    { path: '', redirectTo: '/', pathMatch: 'full' },
+    { path: '', redirectTo: '/Home', pathMatch: 'full' },
     { path: 'Main', component: mainComponent },
     { path: 'Inventory', component: inventoryComponent },
-    { path: 'bsInfo', component: bsInfoComponent }
+    { path: 'bsInfo', component: bsInfoComponent },
+    { path: 'Cart', component: cartComponent },
+    { path: 'Home', component: homeComponent },
 
 ];
 
