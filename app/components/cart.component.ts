@@ -31,6 +31,14 @@ export class cartComponent {
         }
     }
 
+    public count() {
+        var num = 0;
+        for (var i = 0; i < this.cart.cartItems.length; i++){
+            num += this.cart.cartItems[i].Quantity;
+        }
+        return num;
+    }
+
     public inc(num: number) {
         for (var i = 0; i < this.cart.cartItems.length; i++) {
             if (this.cart.cartItems[i].Id == num) {
@@ -43,7 +51,10 @@ export class cartComponent {
         for (var i = 0; i < this.cart.cartItems.length; i++) {
             if (this.cart.cartItems[i].Id == num) {
                 if(this.cart.cartItems[i].Quantity != 0)
-                this.cart.cartItems[i].Quantity--;
+                    this.cart.cartItems[i].Quantity--;
+                if (this.cart.cartItems[i].Quantity == 0) {
+                    this.delete(num);
+                }
             }
         }
     }

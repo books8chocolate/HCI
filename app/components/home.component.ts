@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import { cartService } from '../service/cart.service';
+import { inventoryService } from '../service/inventory.service';
 
 export class Product {
     Id: number = null;
@@ -23,22 +24,28 @@ export class Product {
 })
 export class homeComponent implements OnInit {
 
-    constructor(public cart: cartService, public router: Router) { }
+    constructor(public cart: cartService, public router: Router, public service: inventoryService) { }
 
     Catalog: Product[] = [
-        { Id: 0, Name: 'item1', Category: 'Hoodie', Price: 25.00, Size: ['S', 'M', 'L'], Color: ['Black'], Quantity: 1, Description: 'A Black Hoodie', Fit: ['Men', 'Women'], Seller: 'seller1', pic: 'bHoodie.jpg'},
-        { Id: 1, Name: 'item2', Category: 'Hat', Price: 20.00, Size: [], Color: ['Purple'], Quantity: 1, Description: 'A Baseball Cap', Fit: [], Seller: 'seller1', pic: 'pHat.jpg' },
-        { Id: 2, Name: 'item3', Category: 'Shirt', Price: 15.00, Size: ['S', 'M', 'L'], Color: ['Purple'], Quantity: 1, Description: 'A Purple T-Shirt', Fit: ['Men', 'Women'], Seller: 'seller1', pic: 'pShirt.jpg' },
-        { Id: 3, Name: 'item4', Category: 'Hoodie', Price: 25.00, Size: ['S', 'M', 'L'], Color: ['White'], Quantity: 1, Description: 'A White Hoodie', Fit: ['Men', 'Women'], Seller: 'seller1', pic: 'wHoodie.jpg' },
-        { Id: 4, Name: 'item4', Category: 'Hat', Price: 20.00, Size: [], Color: ['Black'], Quantity: 1, Description: 'A Baseball Cap', Fit: [], Seller: 'seller1', pic: 'bCap.jpg' },
-        { Id: 5, Name: 'item6', Category: 'Shirt', Price: 15.00, Size: ['S', 'M', 'L'], Color: ['Black'], Quantity: 1, Description: 'A Black T-Shirt', Fit: ['Men', 'Women'], Seller: 'seller1', pic: 'bShirt.jpg' }
+        { Id: 66, Name: 'item4', Category: 'Hoodie', Price: 25.00, Size: ['S', 'M', 'L'], Color: ['White'], Quantity: 1, Description: 'A White Hoodie', Fit: ['Men', 'Women'], Seller: 'seller1', pic: 'wHoodie.jpg' },
+        { Id: 77, Name: 'item4', Category: 'Hat', Price: 20.00, Size: [], Color: ['Black'], Quantity: 1, Description: 'A Baseball Cap', Fit: [], Seller: 'seller1', pic: 'bCap.jpg' },
+        { Id: 88, Name: 'item6', Category: 'Shirt', Price: 15.00, Size: ['S', 'M', 'L'], Color: ['Black'], Quantity: 1, Description: 'A Black T-Shirt', Fit: ['Men', 'Women'], Seller: 'seller1', pic: 'bShirt.jpg' }
     ];
     filteredCatalog: Product[] = [];
     queryString: string;
     newItems: boolean = false;
     checkedVal: string[] = [];
+    insert: Product;
 
     ngOnInit(): void {
+        for (var j = 0; j < this.service.Catalog.length; j++) {
+            this.insert = {
+                Id: this.service.Catalog[j].Id, Name: this.service.Catalog[j].Name, Category: this.service.Catalog[j].Category, Price: this.service.Catalog[j].Price,
+                Size: this.service.Catalog[j].Size, Color: this.service.Catalog[j].Color, Quantity: 1, Description: this.service.Catalog[j].Description, Fit: this.service.Catalog[j].Fit,
+                Seller: this.service.Catalog[j].Seller, pic: this.service.Catalog[j].pic
+            }
+            this.Catalog.push(this.insert);
+        }
         for (var i = 0; i < this.Catalog.length; i++) {
             this.filteredCatalog.push(this.Catalog[i]);
         }
@@ -125,9 +132,15 @@ export class homeComponent implements OnInit {
 
 
     public productCart(num: number) {
-        this.cart.cartItems.push(this.Catalog[num]);
+        var item;
+        for (var i = 0; i < this.Catalog.length; i++){
+            if (this.Catalog[i].Id == num) {
+                item = this.Catalog[i];
+                break;
+            }
+        }
+        this.cart.cartItems.push(item);
         this.newItems = true;
-        console.log(this.cart.cartItems);
     }
 
     public pageCart() {

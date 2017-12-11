@@ -14,6 +14,7 @@ var inventory_service_1 = require("../service/inventory.service");
 var Product = (function () {
     function Product() {
         this.Id = null;
+        this.pic = null;
         this.Name = null;
         this.Category = null;
         this.Price = null;
@@ -44,11 +45,7 @@ var inventoryComponent = (function () {
         this.Fits = ['Men', 'Women'];
         this.product = { Id: this.lastID + 1, Name: '', Seller: 'testSeller', Color: [], Size: [], Fit: [] };
         this.oldProduct = { Id: -1, Name: '', Seller: '' };
-        this.Catalog = [
-            { Id: 0, Name: 'item1', Category: 'Hoodie', Price: 25.00, Size: ['S', 'M', 'L'], Color: ['Black'], Quantity: 25, Description: 'A Black Hoodie', Fit: ['Men', 'Women'], Seller: 'seller1' },
-            { Id: 1, Name: 'item2', Category: 'Hat', Price: 20.00, Size: [], Color: ['Black', 'Gray', 'White'], Quantity: 25, Description: 'A Baseball Cap', Fit: [], Seller: 'seller1' },
-            { Id: 2, Name: 'item3', Category: 'Shirt', Price: 15.00, Size: ['S', 'M', 'L'], Color: ['Purple'], Quantity: 25, Description: 'A Purple T-Shirt', Fit: ['Men', 'Women'], Seller: 'seller1' }
-        ];
+        this.Catalog = this.service.Catalog;
     }
     inventoryComponent.prototype.addItem = function () {
         this.Catalog.push(this.product);
@@ -143,7 +140,6 @@ var inventoryComponent = (function () {
         this.Catalog[this.product.Id].Fit = this.product.Fit;
         this.saved = true;
         this.add = false;
-        this.service.setData(this.test);
     };
     inventoryComponent.prototype.removeItem = function () {
         this.Catalog.splice(this.product.Id, 1);

@@ -41,6 +41,13 @@ var cartComponent = (function () {
             }
         }
     };
+    cartComponent.prototype.count = function () {
+        var num = 0;
+        for (var i = 0; i < this.cart.cartItems.length; i++) {
+            num += this.cart.cartItems[i].Quantity;
+        }
+        return num;
+    };
     cartComponent.prototype.inc = function (num) {
         for (var i = 0; i < this.cart.cartItems.length; i++) {
             if (this.cart.cartItems[i].Id == num) {
@@ -53,6 +60,9 @@ var cartComponent = (function () {
             if (this.cart.cartItems[i].Id == num) {
                 if (this.cart.cartItems[i].Quantity != 0)
                     this.cart.cartItems[i].Quantity--;
+                if (this.cart.cartItems[i].Quantity == 0) {
+                    this.delete(num);
+                }
             }
         }
     };

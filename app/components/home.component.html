@@ -1,7 +1,7 @@
 ﻿<div class="container" style="width:auto">
     <div class="row" style="background-color:black; height:3px"></div>
     <div class="row" style="background-color:gray;">
-        <input type="text" [(ngModel)]="queryString" (ngModelChange) ="search()" id="search" placeholder="Search" style="border-radius:5px; border-color:transparent; margin-left:10px;"/>
+        <input type="text" [(ngModel)]="queryString" (ngModelChange) ="search()" id="search" placeholder="Search" style="border-radius:5px; border-color:transparent; margin-left:10px; margin-top:5px;"/>
         <button *ngIf="!newItems" type="button" class="btn" style="float:right; margin-right:5px;" (click)="pageCart()"><img src="HCI_Cart.png" style="height:20px; width:20px;" /></button>
         <button *ngIf="newItems" type="button" class="btn" style="float:right; background-color:purple; margin-right:5px;" (click)="pageCart()"><img src="HCI_Cart.png" style="height:20px; width:20px;" /></button>
     </div>

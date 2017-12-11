@@ -3,6 +3,7 @@ import { inventoryService } from '../service/inventory.service';
 
 export class Product {
     Id: number = null;
+    pic?: string = null;
     Name: string = null;
     Category?: string = null;
     Price?: number = null;
@@ -41,11 +42,7 @@ export class inventoryComponent {
     product: Product = { Id: this.lastID + 1, Name: '', Seller: 'testSeller', Color: [], Size: [], Fit: [] };
     oldProduct: Product = { Id: -1, Name: '', Seller: '' };
 
-    Catalog: Product[] = [
-        { Id: 0, Name: 'item1', Category: 'Hoodie', Price: 25.00, Size: ['S', 'M', 'L'], Color: ['Black'], Quantity: 25, Description: 'A Black Hoodie', Fit: ['Men', 'Women'], Seller: 'seller1' },
-        { Id: 1, Name: 'item2', Category: 'Hat', Price: 20.00, Size: [], Color: ['Black', 'Gray', 'White'], Quantity: 25, Description: 'A Baseball Cap', Fit: [], Seller: 'seller1' },
-        { Id: 2, Name: 'item3', Category: 'Shirt', Price: 15.00, Size: ['S', 'M', 'L'], Color: ['Purple'], Quantity: 25, Description: 'A Purple T-Shirt', Fit: ['Men', 'Women'], Seller: 'seller1' }
-    ];
+    Catalog: Product[] = this.service.Catalog;
 
     public addItem() {
         this.Catalog.push(this.product);
@@ -152,8 +149,6 @@ export class inventoryComponent {
         this.Catalog[this.product.Id].Fit = this.product.Fit;
         this.saved = true;
         this.add = false;
-
-        this.service.setData(this.test);
     }
 
     public removeItem() {
