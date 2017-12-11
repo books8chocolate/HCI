@@ -1,4 +1,5 @@
 ﻿import { Component } from '@angular/core';
+import { inventoryService } from '../service/inventory.service';
 
 export class Product {
     Id: number = null;
@@ -19,6 +20,9 @@ export class Product {
     templateUrl:'app/components/inventory.component.html',
 })
 export class inventoryComponent {
+
+    constructor(private service: inventoryService) { }
+
     saved: boolean = false;
     add: boolean = false;
     edit: boolean = false;
@@ -26,6 +30,8 @@ export class inventoryComponent {
     lastID: number = 2;
     edDel: boolean = false;
     try: boolean = false;
+
+    test: Product[] = [];
 
     Colors: string[] = ['Black', 'White', 'Gray', 'Purple'];
     Sizes: string[] = ['XS', 'S', 'M', 'L', 'XL'];
@@ -57,6 +63,8 @@ export class inventoryComponent {
     }
 
     public selected(id: number) {
+        console.log(this.service.Catalog);
+
         this.product.Id = this.Catalog[id].Id;
         this.product.Name = this.Catalog[id].Name;
         this.product.Description = this.Catalog[id].Description;
@@ -144,6 +152,8 @@ export class inventoryComponent {
         this.Catalog[this.product.Id].Fit = this.product.Fit;
         this.saved = true;
         this.add = false;
+
+        this.service.setData(this.test);
     }
 
     public removeItem() {

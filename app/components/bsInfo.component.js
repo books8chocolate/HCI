@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var cart_service_1 = require("../service/cart.service");
+var router_1 = require("@angular/router");
 var BSInfo = (function () {
     function BSInfo() {
         this.FirstName = null;
@@ -39,8 +40,9 @@ var Card = (function () {
 }());
 exports.Card = Card;
 var bsInfoComponent = (function () {
-    function bsInfoComponent(cart) {
+    function bsInfoComponent(cart, router) {
         this.cart = cart;
+        this.router = router;
         this.isSent = false;
         this.title = 'SHIPPING ADDRESS';
         this.info = new BSInfo();
@@ -271,6 +273,9 @@ var bsInfoComponent = (function () {
         console.log(this.bInfo.FirstName);
         this.checked = bool;
     };
+    bsInfoComponent.prototype.pageCart = function () {
+        this.router.navigateByUrl('/Cart');
+    };
     bsInfoComponent.prototype.uncheck = function (bool) {
         this.bInfo = new BSInfo();
         this.bInfo.Email = "blank";
@@ -289,11 +294,11 @@ var bsInfoComponent = (function () {
         for (var i = 0; i < this.cart.cartItems.length; i++) {
             cost += this.cart.cartItems[i].Price * this.cart.cartItems[i].Quantity;
         }
-        return cost;
+        return Math.round(cost * 100) / 100;
     };
     bsInfoComponent.prototype.tax = function () {
         var tax = this.cost() * 0.0825;
-        return tax;
+        return Math.round(tax * 100) / 100;
     };
     bsInfoComponent.prototype.total = function () {
         return this.cost() + this.tax() + 7;
@@ -312,7 +317,7 @@ bsInfoComponent = __decorate([
         selector: 'bsinfo',
         templateUrl: 'app/components/bsInfo.component.html',
     }),
-    __metadata("design:paramtypes", [cart_service_1.cartService])
+    __metadata("design:paramtypes", [cart_service_1.cartService, router_1.Router])
 ], bsInfoComponent);
 exports.bsInfoComponent = bsInfoComponent;
 //# sourceMappingURL=bsInfo.component.js.map

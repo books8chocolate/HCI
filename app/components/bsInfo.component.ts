@@ -1,5 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { cartService } from '../service/cart.service';
+import { Router } from '@angular/router';
 
 
 export class BSInfo {
@@ -29,7 +30,7 @@ export class Card {
 })
 
 export class bsInfoComponent {
-    constructor(public cart: cartService) {
+    constructor(public cart: cartService, public router: Router) {
 
     }
 
@@ -268,6 +269,10 @@ export class bsInfoComponent {
         this.bInfo.ZipCode = this.info.ZipCode;
         console.log(this.bInfo.FirstName);
         this.checked = bool;
+    }
+
+    public pageCart() {
+        this.router.navigateByUrl('/Cart');
     }
 
     public uncheck(bool:boolean) {

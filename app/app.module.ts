@@ -13,12 +13,13 @@ import { homeComponent } from './components/home.component';
 import { cartComponent } from './components/cart.component';
 
 import { cartService } from './service/cart.service';
+import { inventoryService } from './service/inventory.service';
 
 
 @NgModule({
     imports: [BrowserModule, HttpModule, FormsModule, AppRoutingModule],
     declarations: [mainComponent, inventoryComponent, bsInfoComponent, tabsComponent, homeComponent, cartComponent],
-    providers: [cartService],
+    providers: [inventoryService, cartService],
     bootstrap:    [ mainComponent ]
 })
 export class AppModule { }

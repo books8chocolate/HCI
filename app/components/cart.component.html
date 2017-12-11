@@ -25,10 +25,10 @@
             </tbody>
         </table>
     </div>
-    <div class="col-lg-4 container" style="margin-top:20px">
+    <div class="col-lg-4 container" style="margin-top:20px; text-align:center;">
         <div style="border-color:black; background-color:gray; text-align:center">
             <span><b>Subtotal ({{cart.cartItems.length}} items): {{priceNum(cost())}}</b></span>
-            <button type="button" class="btn-block" style="width:400px; height:25px;  margin: 5px 5px 5px 5px; background-color:purple" (click)="proctoCheck()">Proceed to Checkout</button>
+            <button type="button" class="btn-block" style="width:400px; height:25px;  margin: 5px 5px 5px 5px; background-color:purple; color:white;" (click)="proctoCheck()">Proceed to Checkout</button>
             <button type="button" class="btn-block" style="width:400px; height:25px; margin: 5px 5px 5px 5px; background-color:white" (click)="home()">Continue Shopping</button>
         </div>
     </div>

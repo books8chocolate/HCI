@@ -34,15 +34,94 @@ var homeComponent = (function () {
         this.cart = cart;
         this.router = router;
         this.Catalog = [
-            { Id: 0, Name: 'item1', Category: 'Hoodie', Price: 25.00, Size: ['S', 'M', 'L'], Color: ['Black'], Quantity: 0, Description: 'A Black Hoodie', Fit: ['Men', 'Women'], Seller: 'seller1', pic: 'bHoodie.jpg' },
-            { Id: 1, Name: 'item2', Category: 'Hat', Price: 20.00, Size: [], Color: ['Black', 'Gray', 'White'], Quantity: 1, Description: 'A Baseball Cap', Fit: [], Seller: 'seller1', pic: 'pHat.jpg' },
+            { Id: 0, Name: 'item1', Category: 'Hoodie', Price: 25.00, Size: ['S', 'M', 'L'], Color: ['Black'], Quantity: 1, Description: 'A Black Hoodie', Fit: ['Men', 'Women'], Seller: 'seller1', pic: 'bHoodie.jpg' },
+            { Id: 1, Name: 'item2', Category: 'Hat', Price: 20.00, Size: [], Color: ['Purple'], Quantity: 1, Description: 'A Baseball Cap', Fit: [], Seller: 'seller1', pic: 'pHat.jpg' },
             { Id: 2, Name: 'item3', Category: 'Shirt', Price: 15.00, Size: ['S', 'M', 'L'], Color: ['Purple'], Quantity: 1, Description: 'A Purple T-Shirt', Fit: ['Men', 'Women'], Seller: 'seller1', pic: 'pShirt.jpg' },
             { Id: 3, Name: 'item4', Category: 'Hoodie', Price: 25.00, Size: ['S', 'M', 'L'], Color: ['White'], Quantity: 1, Description: 'A White Hoodie', Fit: ['Men', 'Women'], Seller: 'seller1', pic: 'wHoodie.jpg' },
-            { Id: 4, Name: 'item4', Category: 'Hat', Price: 20.00, Size: [], Color: ['Black', 'Gray', 'Purple'], Quantity: 1, Description: 'A Baseball Cap', Fit: [], Seller: 'seller1', pic: 'bCap.jpg' },
+            { Id: 4, Name: 'item4', Category: 'Hat', Price: 20.00, Size: [], Color: ['Black'], Quantity: 1, Description: 'A Baseball Cap', Fit: [], Seller: 'seller1', pic: 'bCap.jpg' },
             { Id: 5, Name: 'item6', Category: 'Shirt', Price: 15.00, Size: ['S', 'M', 'L'], Color: ['Black'], Quantity: 1, Description: 'A Black T-Shirt', Fit: ['Men', 'Women'], Seller: 'seller1', pic: 'bShirt.jpg' }
         ];
+        this.filteredCatalog = [];
         this.newItems = false;
+        this.checkedVal = [];
     }
+    homeComponent.prototype.ngOnInit = function () {
+        for (var i = 0; i < this.Catalog.length; i++) {
+            this.filteredCatalog.push(this.Catalog[i]);
+        }
+    };
+    homeComponent.prototype.search = function () {
+        this.filteredCatalog = [];
+        var fixedParam = this.queryString.trim().toLowerCase();
+        if (fixedParam.length == 0) {
+            for (var i = 0; i < this.Catalog.length; i++) {
+                this.filteredCatalog.push(this.Catalog[i]);
+            }
+        }
+        else {
+            for (var i = 0; i < this.Catalog.length; i++) {
+                var item = this.Catalog[i];
+                if (item.Name.toLowerCase().search(fixedParam) != -1 || item.Category.toLowerCase().search(fixedParam) != -1 ||
+                    item.Description.toLowerCase().search(fixedParam) != -1 || item.Color[0].toLowerCase().search(fixedParam) != -1 ||
+                    item.Price.toFixed(2).toString().toLowerCase().search(fixedParam) != -1) {
+                    this.filteredCatalog.push(this.Catalog[i]);
+                }
+            }
+        }
+    };
+    homeComponent.prototype.check = function (val) {
+        this.checkedVal.push(val); //push new val check into array
+        this.filteredCatalog = [];
+        for (var j = 0; j < this.checkedVal.length; j++) {
+            var filter = this.checkedVal[j];
+            for (var i = 0; i < this.Catalog.length; i++) {
+                var item = this.Catalog[i];
+                //check if already in filter
+                var inFilter = false;
+                for (var u = 0; u < this.filteredCatalog.length; u++) {
+                    if (this.filteredCatalog[u].Id == item.Id) {
+                        inFilter = true;
+                        break;
+                    }
+                }
+                if (inFilter == false) {
+                    if (item.Category.toLowerCase() == filter ||
+                        item.Color[0].toLowerCase() == filter) {
+                        this.filteredCatalog.push(this.Catalog[i]);
+                    }
+                }
+            }
+        }
+    };
+    homeComponent.prototype.uncheck = function (val) {
+        this.checkedVal.splice(this.checkedVal.indexOf(val), 1);
+        if (this.checkedVal.length == 0) {
+            this.filteredCatalog = [];
+            for (var i = 0; i < this.Catalog.length; i++) {
+                this.filteredCatalog.push(this.Catalog[i]);
+            }
+        }
+        else {
+            for (var i = 0; i < this.filteredCatalog.length; i++) {
+                var item = this.filteredCatalog[i];
+                var keep = false;
+                if (item.Category.toLowerCase() == val ||
+                    item.Color[0].toLowerCase() == val) {
+                    for (var w = 0; w < this.checkedVal.length; w++) {
+                        if (item.Category.toLowerCase() == this.checkedVal[w] ||
+                            item.Color[0].toLowerCase() == this.checkedVal[w]) {
+                            keep = true;
+                            break;
+                        }
+                    }
+                    if (keep == false) {
+                        this.filteredCatalog.splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+        }
+    };
     homeComponent.prototype.productCart = function (num) {
         this.cart.cartItems.push(this.Catalog[num]);
         this.newItems = true;

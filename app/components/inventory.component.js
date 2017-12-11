@@ -5,8 +5,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var inventory_service_1 = require("../service/inventory.service");
 var Product = (function () {
     function Product() {
         this.Id = null;
@@ -24,7 +28,8 @@ var Product = (function () {
 }());
 exports.Product = Product;
 var inventoryComponent = (function () {
-    function inventoryComponent() {
+    function inventoryComponent(service) {
+        this.service = service;
         this.saved = false;
         this.add = false;
         this.edit = false;
@@ -32,6 +37,7 @@ var inventoryComponent = (function () {
         this.lastID = 2;
         this.edDel = false;
         this.try = false;
+        this.test = [];
         this.Colors = ['Black', 'White', 'Gray', 'Purple'];
         this.Sizes = ['XS', 'S', 'M', 'L', 'XL'];
         this.Categories = ['', 'Shirt', 'Hoodie', 'Hat'];
@@ -57,6 +63,7 @@ var inventoryComponent = (function () {
         this.edit = false;
     };
     inventoryComponent.prototype.selected = function (id) {
+        console.log(this.service.Catalog);
         this.product.Id = this.Catalog[id].Id;
         this.product.Name = this.Catalog[id].Name;
         this.product.Description = this.Catalog[id].Description;
@@ -136,6 +143,7 @@ var inventoryComponent = (function () {
         this.Catalog[this.product.Id].Fit = this.product.Fit;
         this.saved = true;
         this.add = false;
+        this.service.setData(this.test);
     };
     inventoryComponent.prototype.removeItem = function () {
         this.Catalog.splice(this.product.Id, 1);
@@ -148,7 +156,8 @@ inventoryComponent = __decorate([
     core_1.Component({
         selector: 'inventory',
         templateUrl: 'app/components/inventory.component.html',
-    })
+    }),
+    __metadata("design:paramtypes", [inventory_service_1.inventoryService])
 ], inventoryComponent);
 exports.inventoryComponent = inventoryComponent;
 //# sourceMappingURL=inventory.component.js.map
